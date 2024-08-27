@@ -1,8 +1,9 @@
 #include <iostream>
+#include <cstdlib> 
 using namespace std;
 
 const int numberOfSeats = 120;
-int consecutive = 0;
+int consecutive = 00000000;
 
 class Movie {
 private:
@@ -132,8 +133,8 @@ public:
 		startTime = newStartTime;
 	}
 
-	void setEndTime(string newStartTime) {
-		endTime = newStartTime;
+	void setEndTime(string newEndTime) {
+		endTime = newEndTime;
 	}
 
 	string getDate() {
@@ -150,28 +151,22 @@ public:
 
 class Reservation {
 private:
-
 	Movie movie;
 	MovieRoom movieRoom;
 	Schedule schedule;
 	string saleStatus;
+
 public:
 	Reservation() {
 		saleStatus = " ";
 	}
 
 	Reservation(string aSaleStatus) {
-
 		saleStatus = aSaleStatus;
-
 	}
 
-	void setSaleStatus(string saleStatus) {
-		saleStatus = saleStatus;
-	}
-
-	int getConsecutive() {
-		return consecutive;
+	void setSaleStatus(string newSaleStatus) {
+		saleStatus = newSaleStatus;
 	}
 
 	string getSaleStatus() {
@@ -179,30 +174,100 @@ public:
 	}
 };
 
-void showMenu() {
+int getConsecutive() {
+	return consecutive;
+}
 
-	cout << "   Menu de Opciones:" << endl;
-	cout << endl;
-	cout << "Reserva:      " << endl;
-	cout << "   1.Realizar Reserva. " << endl;
-	cout << endl;
-	cout << "Venta:        " << endl;
-	cout << "   2.Realizar Pago.    " << endl;
-	cout << endl;
-	cout << "Mantenimiento:" << endl;
-	cout << "   3. Peliculas. " << endl;
-	cout << "   4. Salas. " << endl;
-	cout << "   5. Horarios. " << endl;
-	cout << endl;
-	cout << "Archivo: " << endl;
-	cout << "   6. Acerca de. " << endl;
-	cout << "   7. Salir. " << endl;
-	cout << endl;
+void showPrincipalMenu() {
+
+	cout << "   Menu Principal:" << endl;
+	cout << "   1. Reserva" << endl;
+	cout << "   2. Venta" << endl;
+	cout << "   3. Mantenimiento" << endl;
+	cout << "   4. Acerca de " << endl;
+	cout << "   5. Salir" << endl;
+}
+
+void showMaintenanceMenu() {
+	cout << "   Menu de Mantenimiento:" << endl;
+	cout << "   1. Modificar informacion de las Peliculas" << endl;
+	cout << "   2. Modificar informacion de las Salas" << endl;
+	cout << "   3. Modificar informacion de los Horarios" << endl;
+	cout << "   4. Volver al Menu Principal" << endl;
+}
+
+void handleMaintenanceMenu() {
+	int choice;
+	do {
+		system("cls");
+		showMaintenanceMenu();
+		cout << "Seleccione una opcion valida: ";
+		cin >> choice;
+
+		if (choice == 1) {
+			cout << "  Peliculas" << endl;
+			continue;
+		}
+
+		if (choice == 2) {
+			cout << " Salas" << endl;
+			continue;
+		}
+
+		if (choice == 3) {
+			cout << "Horarios" << endl;
+			continue;
+		}
+
+		if (choice == 4) {
+			return;  
+		}
+		
+		
+	} while (true);
+}
+
+void executeMenu() {
+	int choice;
+	do {
+		system("cls");
+		showPrincipalMenu();
+		cout << "Digite una opcion: ";
+		cin >> choice;
+		if (choice == 1) {
+			cout << "Realizar Reserva." << endl;
+			return;
+		}
+
+		if (choice == 2) {
+			cout << "Realizar Pago." << endl;
+			return;
+		}
+
+		if (choice == 3) {
+			handleMaintenanceMenu();
+			continue;
+		}
+
+		if (choice == 4) {
+			cout << "Acerca de." << endl;
+			return;
+		}
+
+		if (choice == 5) {
+			cout << "Saliendo del programa..." << endl;
+			return;
+		}
+
+		cout << "Opción no válida. Intente de nuevo." << endl;
+		
+	} while (true);
 }
 
 int main()
 {
-	showMenu();
+	int choice;
+	executeMenu();
 	return 0;
 
 }

@@ -1,3 +1,4 @@
 ﻿  PROYECTO_ccordero.cpp
-C:\Users\Ericka\Desktop\PROYECTO PROGRA I\Trabajando\PROYECTO_ccordero\PROYECTO_ccordero.cpp(269,6): warning C4101: 'choice': variable local sin referencia
+C:\Users\Ericka\Desktop\PROYECTO PROGRA I\Trabajando\PROYECTO_ccordero\PROYECTO_ccordero.cpp(182,6): warning C4101: 'choice': variable local sin referencia
+C:\Users\Ericka\Desktop\PROYECTO PROGRA I\Trabajando\PROYECTO_ccordero\PROYECTO_ccordero.cpp(305,6): warning C4101: 'choice': variable local sin referencia
   PROYECTO_ccordero.vcxproj -> C:\Users\Ericka\Desktop\PROYECTO PROGRA I\Trabajando\PROYECTO_ccordero\x64\Debug\PROYECTO_ccordero.exe

@@ -158,7 +158,7 @@ private:
 
 public:
 	Reservation() {
-		saleStatus = " ";
+		saleStatus = "";
 	}
 
 	Reservation(string aSaleStatus) {
@@ -178,14 +178,25 @@ int getConsecutive() {
 	return consecutive;
 }
 
+void showAuthorName() {
+	int choice;
+	do {
+		system("cls");
+		cout << "AUTOR DE ESTE PROGRAMA:" << endl;
+		cout << "CRISTIAN CORDERO VARELA." << endl;
+		system("pause");
+		return;
+	} while (true);
+}
+
 void showPrincipalMenu() {
 
 	cout << "   Menu Principal:" << endl;
 	cout << "   1. Reserva" << endl;
 	cout << "   2. Venta" << endl;
 	cout << "   3. Mantenimiento" << endl;
-	cout << "   4. Acerca de " << endl;
-	cout << "   5. Salir" << endl;
+	cout << "   4. Archivo " << endl;
+	
 }
 
 void showMaintenanceMenu() {
@@ -194,6 +205,13 @@ void showMaintenanceMenu() {
 	cout << "   2. Modificar informacion de las Salas" << endl;
 	cout << "   3. Modificar informacion de los Horarios" << endl;
 	cout << "   4. Volver al Menu Principal" << endl;
+}
+
+void showFileMenu() {
+	cout << "   Menu de Archivo:" << endl;
+	cout << "   1. Acerca de" << endl;
+	cout << "   2. Salir." << endl;
+	cout << "   3. Volver al Menu Principal" << endl;
 }
 
 void handleMaintenanceMenu() {
@@ -227,6 +245,29 @@ void handleMaintenanceMenu() {
 	} while (true);
 }
 
+void handleFileMenu() {
+	int choice;
+	do {
+		system("cls");
+		showFileMenu();
+		cout << "Seleccione una opcion valida: ";
+		cin >> choice;
+
+		if (choice == 1) {
+			showAuthorName();
+			continue;
+		}
+		if (choice == 2) {
+			exit(0);
+			return;
+		}
+		if (choice == 3) {
+			return;
+		}
+
+	} while (true);
+}
+
 void executeMenu() {
 	int choice;
 	do {
@@ -250,13 +291,8 @@ void executeMenu() {
 		}
 
 		if (choice == 4) {
-			cout << "Acerca de." << endl;
-			return;
-		}
-
-		if (choice == 5) {
-			cout << "Saliendo del programa..." << endl;
-			return;
+			handleFileMenu();
+			continue;
 		}
 
 		cout << "Opción no válida. Intente de nuevo." << endl;

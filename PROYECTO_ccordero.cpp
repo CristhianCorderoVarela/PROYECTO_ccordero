@@ -1,9 +1,6 @@
 #include <iostream>
-#include <cstdlib> 
+#include <string>
 using namespace std;
-
-const int numberOfSeats = 120;
-int consecutive = 00000000;
 
 class Movie {
 private:
@@ -12,6 +9,7 @@ private:
 	float duration;
 	string country;
 	string review;
+
 
 public:
 	Movie() {
@@ -66,6 +64,20 @@ public:
 
 	string getReview() {
 		return review;
+	}
+
+	void getMovieData() {
+
+		cout << "Ingrese el nombre de la pelicula:" << endl;
+		getline(cin, name);
+		cout << "Ingrese el anio de publicacion:" << endl;
+		cin >> year;
+		cout << "Ingrese la duracion (en minutos):" << endl;
+		cin >> duration;
+		cout << "Ingrese el pais de origen:" << endl;
+		getline(cin, country);
+		cout << "Ingrese la sinapsis:" << endl;
+		getline(cin, review);
 	}
 
 };
@@ -155,14 +167,17 @@ private:
 	MovieRoom movieRoom;
 	Schedule schedule;
 	string saleStatus;
+	int consecutive;
 
 public:
 	Reservation() {
 		saleStatus = "";
+		consecutive = 0;
 	}
 
-	Reservation(string aSaleStatus) {
+	Reservation(string aSaleStatus, int aConsecutive) {
 		saleStatus = aSaleStatus;
+		consecutive = aConsecutive;
 	}
 
 	void setSaleStatus(string newSaleStatus) {
@@ -172,138 +187,219 @@ public:
 	string getSaleStatus() {
 		return saleStatus;
 	}
+
+	int getConsecutive() {
+		return consecutive;
+	}
 };
 
-int getConsecutive() {
-	return consecutive;
-}
+class Menu {
+private:
+	
 
-void showAuthorName() {
-	int choice;
-	do {
+public:
+
+	int validateChoice() {
+		int choice;
+		cout << "Seleccione una opcion: ";
+
+		if (cin >> choice ) {
+			return choice;
+		}
+		cout << "Debe ingresar un numero. ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
+
+	void showAbout() {
+
 		system("cls");
-		cout << "AUTOR DE ESTE PROGRAMA:" << endl;
-		cout << "CRISTIAN CORDERO VARELA." << endl;
+		cout << "Programa: NUEVA CINEMA SA - Sistema de Venta de Tickets"<<endl;
+		cout << "Autor: Cristhian Cordero Varela"<<endl;
+		cout << "Versiones:\n";
+		cout << "1.0 - Version inicial con gestion de peliculas y salas"<<endl;
+		cout << "1.2 - Correcciones en la validacion de entradas de usuario" << endl;
+		cout << "1.3 - Mejora en la gestion de horarios y ventas" << endl;
+		cout << "1.5 - C orrección de errores menores" << endl;
 		system("pause");
 		return;
-	} while (true);
-}
+	}
 
-void showPrincipalMenu() {
+	void showPrincipalMenu() {
 
-	cout << "   Menu Principal:" << endl;
-	cout << "   1. Reserva" << endl;
-	cout << "   2. Venta" << endl;
-	cout << "   3. Mantenimiento" << endl;
-	cout << "   4. Archivo " << endl;
-	
-}
+		cout << "   Menu Principal:" << endl;
+		cout << "   1. Reserva" << endl;
+		cout << "   2. Venta" << endl;
+		cout << "   3. Mantenimiento" << endl;
+		cout << "   4. Archivo " << endl;
 
-void showMaintenanceMenu() {
-	cout << "   Menu de Mantenimiento:" << endl;
-	cout << "   1. Modificar informacion de las Peliculas" << endl;
-	cout << "   2. Modificar informacion de las Salas" << endl;
-	cout << "   3. Modificar informacion de los Horarios" << endl;
-	cout << "   4. Volver al Menu Principal" << endl;
-}
+	}
 
-void showFileMenu() {
-	cout << "   Menu de Archivo:" << endl;
-	cout << "   1. Acerca de" << endl;
-	cout << "   2. Salir." << endl;
-	cout << "   3. Volver al Menu Principal" << endl;
-}
+	void showReserveMenu() {
 
-void handleMaintenanceMenu() {
-	int choice;
-	do {
-		system("cls");
-		showMaintenanceMenu();
-		cout << "Seleccione una opcion valida: ";
-		cin >> choice;
+		cout << endl << "Aca se estableceran las funciones de Reserva" << endl;
+		cout << endl;
+		cout << "1. Volver al Menu Principal" << endl;
+	}
 
-		if (choice == 1) {
-			cout << "  Peliculas" << endl;
-			continue;
-		}
+	void showSalesMenu() {
 
-		if (choice == 2) {
-			cout << " Salas" << endl;
-			continue;
-		}
+		cout << "1. Realizar pago " << endl;
+		cout << "2. Volver al Menu Principal" << endl;
+	}
 
-		if (choice == 3) {
-			cout << "Horarios" << endl;
-			continue;
-		}
+	void showMaintenanceMenu() {
+		cout << "   Menu de Mantenimiento:" << endl;
+		cout << "   1. Modificar Peliculas" << endl;
+		cout << "   2. Modificar Salas" << endl;
+		cout << "   3. Modificar Horarios" << endl;
+		cout << "   4. Volver al Menu Principal" << endl;
+	}
 
-		if (choice == 4) {
-			return;  
-		}
-		
-		
-	} while (true);
-}
+	void showFileMenu() {
+		cout << "   Menu de Archivo:" << endl;
+		cout << "   1. Acerca de" << endl;
+		cout << "   2. Salir." << endl;
+		cout << "   3. Volver al Menu Principal" << endl;
+		cout << endl;
+	}
 
-void handleFileMenu() {
-	int choice;
-	do {
-		system("cls");
-		showFileMenu();
-		cout << "Seleccione una opcion valida: ";
-		cin >> choice;
+	void handleMaintenanceMenu() {
+		int choice;
 
-		if (choice == 1) {
-			showAuthorName();
-			continue;
-		}
-		if (choice == 2) {
-			exit(0);
-			return;
-		}
-		if (choice == 3) {
-			return;
-		}
+		do {
+			system("cls");
+			showMaintenanceMenu();
+			cout << "Seleccione una opcion valida: ";
+			choice = validateChoice();
+			if (choice == 1) {
+				cout << "Se realizo GESTION de PELIS" << endl;
+				system("pause");
+				continue;
+			}
 
-	} while (true);
-}
+			if (choice == 2) {
+				cout << "Se realizo GESTION de SALAS" << endl;
+				system("pause");
+				continue;
+			}
 
-void executeMenu() {
-	int choice;
-	do {
-		system("cls");
-		showPrincipalMenu();
-		cout << "Digite una opcion: ";
-		cin >> choice;
-		if (choice == 1) {
-			cout << "Realizar Reserva." << endl;
-			return;
-		}
+			if (choice == 3) {
+				cout << "Se realizo GESTION de HORARIOS" << endl;
+				system("pause");
+				continue;
+			}
 
-		if (choice == 2) {
-			cout << "Realizar Pago." << endl;
-			return;
-		}
+			if (choice == 4) {
+				return;
+			}
 
-		if (choice == 3) {
-			handleMaintenanceMenu();
-			continue;
-		}
 
-		if (choice == 4) {
-			handleFileMenu();
-			continue;
-		}
+		} while (true);
+	}
 
-		cout << "Opción no válida. Intente de nuevo." << endl;
-		
-	} while (true);
-}
+	void handleReserveMenu() {
+
+		int choice;
+
+		do {
+			system("cls");
+			showReserveMenu();
+			choice = validateChoice();
+
+
+			if (choice == 1) {
+				return;
+			}
+			cout << "Entrada invalida.";
+		} while (true);
+
+
+	}
+
+	void handleSalesMenu() {
+		int choice = 0;
+
+		do {
+			system("cls");
+			showSalesMenu();
+			choice = validateChoice();
+
+			if (choice == 1) {
+				cout << "Pago realizado." << endl;
+				system("pause");
+				break;
+			}
+			if (choice == 2) {
+				return;
+			}
+
+		} while (true);
+	}
+
+	void handleFileMenu() {
+		int choice = 0;
+
+		do {
+			system("cls");
+			showFileMenu();
+			choice = validateChoice();
+
+			if (choice == 1) {
+				showAbout();
+				continue;
+			}
+			if (choice == 2) {
+				cout << "Saliendo del programa.." << endl;
+				exit(0);
+				break;
+			}
+			if (choice == 3) {
+				return;
+			}
+
+		} while (true);
+	}
+
+	void executeMenu() {
+
+		int choice;
+		do {
+			system("cls");
+			showPrincipalMenu();
+			choice = validateChoice();
+			if (choice == 1) {
+				handleReserveMenu();
+				continue;
+			}
+
+			if (choice == 2) {
+				handleSalesMenu();
+				continue;
+			}
+
+			if (choice == 3) {
+				handleMaintenanceMenu();
+				continue;
+			}
+
+			if (choice == 4) {
+				handleFileMenu();
+				continue;
+			}
+			cout << "Entrada invalida.";
+		} while (true);
+	}
+
+
+
+};
 
 int main()
 {
+	Menu menu;
 	int choice;
-	executeMenu();
+	menu.executeMenu();
 	return 0;
 
 }

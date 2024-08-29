@@ -1,4 +1,4 @@
 ﻿  PROYECTO_ccordero.cpp
-C:\Users\Ericka\Desktop\PROYECTO PROGRA I\Trabajando\PROYECTO_ccordero\PROYECTO_ccordero.cpp(182,6): warning C4101: 'choice': variable local sin referencia
-C:\Users\Ericka\Desktop\PROYECTO PROGRA I\Trabajando\PROYECTO_ccordero\PROYECTO_ccordero.cpp(305,6): warning C4101: 'choice': variable local sin referencia
+C:\Users\Ericka\Desktop\PROYECTO PROGRA I\Trabajando\PROYECTO_ccordero\PROYECTO_ccordero.cpp(403,6): warning C4101: 'choice': variable local sin referencia
+C:\Users\Ericka\Desktop\PROYECTO PROGRA I\Trabajando\PROYECTO_ccordero\PROYECTO_ccordero.cpp(214,1): warning C4715: 'Menu::validateChoice': no todas las rutas de acceso de control devuelven un valor
   PROYECTO_ccordero.vcxproj -> C:\Users\Ericka\Desktop\PROYECTO PROGRA I\Trabajando\PROYECTO_ccordero\x64\Debug\PROYECTO_ccordero.exe

@@ -66,26 +66,18 @@ public:
 		return review;
 	}
 
-	void getMovieData(Movie*& movie) {
-
-		int size = 1;
+	void getMovieData(string* name, int* year, int* duration, string* country, string* review) {
 
 		cout << "Ingrese el nombre de la pelicula:" << endl;
-		getline(cin, name);
+		getline(cin, *name);
 		cout << "Ingrese el anio de publicacion:" << endl;
-		cin >> year;
+		cin >> *year;
 		cout << "Ingrese la duracion (en minutos):" << endl;
-		cin >> duration;
+		cin >> *duration;
 		cout << "Ingrese el pais de origen:" << endl;
-		getline(cin, country);
+		getline(cin, *country);
 		cout << "Ingrese la sinapsis:" << endl;
-		getline(cin, review);
-
-		Movie* temp = new Movie[size];
-
-		for (int i = 0; i < size; i++) {
-			temp[i] = movie[i];
-		}
+		getline(cin, *review);
 
 	}
 
@@ -95,7 +87,7 @@ public:
 class MovieRoom {
 private:
 	int number;
-	int seat;
+	int seat = 120;
 	float price;
 
 public:
@@ -114,9 +106,6 @@ public:
 
 	void setNumber(int newNumber) {
 		number = newNumber;
-	}
-	void setSeat(int newSeat) {
-		seat = newSeat;
 	}
 
 	void setPrice(float newPrice) {
@@ -138,83 +127,53 @@ public:
 
 class Schedule {
 private:
-	string date;
-	string startTime;
-	string endTime;
+	string day;
+	int hour;
+	int minutes;
 public:
 	Schedule() {
-		date = " ";
-		startTime = " ";
-		endTime = " ";
+		day = " ";
+		hour = 0;
+		minutes = 0;
 	}
-	Schedule(string aDate, string aStartTime, string aEndTime) {
-		date = aDate;
-		startTime = aStartTime;
-		endTime = aEndTime;
-	}
-
-	void setDate(string newDate) {
-		date = newDate;
+	Schedule(string aDay, int aHour, int aMinutes) {
+		day = aDay;
+		hour = aHour;
+		minutes = aMinutes;
 	}
 
-	void setStartTime(string newStartTime) {
-		startTime = newStartTime;
+	void setDate(string newDay) {
+		day = newDay;
 	}
 
-	void setEndTime(string newEndTime) {
-		endTime = newEndTime;
+	void setHour(int newHour) {
+		hour = newHour;
 	}
 
-	string getDate() {
-		return date;
-	}
-	string getStartTime() {
-		return startTime;
+	void setMinutes(int newMinutes) {
+		minutes = newMinutes;
 	}
 
-	string getEndTime() {
-		return endTime;
-	}
-};
-
-class Reservation {
-private:
-	Movie movie;
-	MovieRoom movieRoom;
-	Schedule schedule;
-	string saleStatus;
-	int consecutive;
-
-public:
-	Reservation() {
-		saleStatus = "";
-		consecutive = 0;
+	string getDay() {
+		return day;
 	}
 
-	Reservation(string aSaleStatus, int aConsecutive) {
-		saleStatus = aSaleStatus;
-		consecutive = aConsecutive;
+	int gethour() {
+		return hour;
 	}
 
-	void setSaleStatus(string newSaleStatus) {
-		saleStatus = newSaleStatus;
-	}
-
-	string getSaleStatus() {
-		return saleStatus;
-	}
-
-	int getConsecutive() {
-		return consecutive;
+	int getMinutes() {
+		return minutes;
 	}
 };
 
 class Client {
 private:
 	string name;
-	string surnames;
+	string lastName;
 	string userId;
 	string cardNumber;
+	string cvcNumber;
 
 public:
 	Client() {
@@ -222,15 +181,17 @@ public:
 		userId = " ";
 		cardNumber = " ";
 		name = " ";
-		surnames = " ";
+		lastName = " ";
+		cvcNumber = " ";
 	}
 
-	Client(string newId, string newCardNumber, string newName, string newSurnames) {
+	Client(string newId, string newCardNumber, string newName, string newSurnames, string newCvcNumber) {
 
 		userId = newId;
 		cardNumber = newCardNumber;
 		name = newName;
-		surnames = newSurnames;
+		lastName = newSurnames;
+		cvcNumber = newCvcNumber;
 	}
 	void setUserId(string anId) {
 		userId = anId;
@@ -242,24 +203,43 @@ public:
 	void setName(string aName) {
 		name = aName;
 	}
-	void setSurnames(string theSurnames) {
-		surnames = theSurnames;
-	}
-
-	string getUserId() {
-		return userId;
-	}
-
-	string getCardNumber() {
-		return cardNumber;
+	void setLastname(string aLastName) {
+		lastName = aLastName;
 	}
 	string getName() {
 		return name;
 	}
-	string setSurnames() {
-		return surnames;
+	string getLastName() {
+		return lastName;
 	}
 
+};
+
+class Reservation {
+private:
+	Movie movie;
+	MovieRoom movieRoom;
+	Schedule schedule;
+	bool saleStatus;
+	int consecutive;
+
+public:
+	Reservation() {
+		saleStatus = "";
+		consecutive = 0;
+	}
+
+	Reservation(int aConsecutive) {
+		consecutive = aConsecutive;
+	}
+
+	bool getSaleStatus() {
+		return saleStatus;
+	}
+
+	int getConsecutive() {
+		return consecutive;
+	}
 };
 
 class Menu {
@@ -281,7 +261,7 @@ public:
 	}
 
 	void showAbout() {
-
+		cout << endl;
 		cout << "Programa: NUEVA CINEMA SA - Sistema de Venta de Tickets" << endl;
 		cout << "Autor: Cristhian Cordero Varela" << endl;
 		cout << "            Versiones:" << endl;
@@ -355,6 +335,7 @@ public:
 			if (choice == 4) {
 				return;
 			}
+			cout << endl << "Entrada invalida." << endl << endl;
 		} while (true);
 	}
 
@@ -370,7 +351,7 @@ public:
 			if (choice == 1) {
 				return;
 			}
-			cout << "Entrada invalida.";
+			cout << endl << "Entrada invalida." << endl << endl;
 		} while (true);
 
 
@@ -389,6 +370,7 @@ public:
 			if (choice == 2) {
 				return;
 			}
+			cout << endl << "Entrada invalida." << endl << endl;
 
 		} while (true);
 	}
@@ -411,6 +393,7 @@ public:
 				*leaving = true;
 				break;
 			}
+			cout << endl << "Entrada invalida." << endl << endl;
 		} while (true);
 	}
 
@@ -442,7 +425,7 @@ public:
 				}
 				continue;
 			}
-			cout << "Entrada invalida.";
+			cout << "Entrada invalida." << endl;
 		} while (true);
 	}
 

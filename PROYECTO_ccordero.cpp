@@ -314,8 +314,7 @@ public:
 	}
 
 	void handleMaintenanceMenu() {
-
-		do {
+		while (true) {
 			showMaintenanceMenu();
 			choice = validateChoice();
 			if (choice == 1) {
@@ -336,33 +335,25 @@ public:
 				return;
 			}
 			cout << endl << "Entrada invalida." << endl << endl;
-		} while (true);
+		}
 	}
 
 	void handleReserveMenu() {
-
 		int choice;
-
-		do {
-
+		while (true) {
 			showReserveMenu();
 			choice = validateChoice();
-
 			if (choice == 1) {
 				return;
 			}
 			cout << endl << "Entrada invalida." << endl << endl;
-		} while (true);
-
-
+		}
 	}
 
 	void handleSalesMenu() {
-
-		do {
+		while (true) {
 			showSalesMenu();
 			choice = validateChoice();
-
 			if (choice == 1) {
 				cout << "Pago realizado." << endl;
 				continue;
@@ -371,16 +362,13 @@ public:
 				return;
 			}
 			cout << endl << "Entrada invalida." << endl << endl;
-
-		} while (true);
+		}
 	}
 
 	void handleFileMenu(bool* leaving) {
-
-		do {
+		while (true) {
 			showFileMenu();
 			choice = validateChoice();
-
 			if (choice == 1) {
 				showAbout();
 				continue;
@@ -394,30 +382,26 @@ public:
 				break;
 			}
 			cout << endl << "Entrada invalida." << endl << endl;
-		} while (true);
+		}
 	}
 
 	void executeMenu() {
 		bool leaving = false;
-		do {
-
+		while (true) {
 			showPrincipalMenu();
 			choice = validateChoice();
 			if (choice == 1) {
 				handleReserveMenu();
 				continue;
 			}
-
 			if (choice == 2) {
 				handleSalesMenu();
 				continue;
 			}
-
 			if (choice == 3) {
 				handleMaintenanceMenu();
 				continue;
 			}
-
 			if (choice == 4) {
 				handleFileMenu(&leaving);
 				if (leaving) {
@@ -426,9 +410,8 @@ public:
 				continue;
 			}
 			cout << "Entrada invalida." << endl;
-		} while (true);
+		}
 	}
-
 };
 
 int main()

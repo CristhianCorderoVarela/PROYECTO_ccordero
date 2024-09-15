@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 class Movie {
@@ -47,6 +48,7 @@ public:
 	void setReview(string newReview) {
 		review = newReview;
 	}
+
 	string getName() {
 		return name;
 	}
@@ -54,6 +56,7 @@ public:
 	int getYear() {
 		return year;
 	}
+
 	float getDuration() {
 		return duration;
 	}
@@ -65,22 +68,6 @@ public:
 	string getReview() {
 		return review;
 	}
-
-	void getMovieData(string* name, int* year, int* duration, string* country, string* review) {
-
-		cout << "Ingrese el nombre de la pelicula:" << endl;
-		getline(cin, *name);
-		cout << "Ingrese el anio de publicacion:" << endl;
-		cin >> *year;
-		cout << "Ingrese la duracion (en minutos):" << endl;
-		cin >> *duration;
-		cout << "Ingrese el pais de origen:" << endl;
-		getline(cin, *country);
-		cout << "Ingrese la sinapsis:" << endl;
-		getline(cin, *review);
-
-	}
-
 
 };
 
@@ -132,7 +119,7 @@ private:
 	int minutes;
 public:
 	Schedule() {
-		day = " ";
+		day = "";
 		hour = 0;
 		minutes = 0;
 	}
@@ -142,7 +129,7 @@ public:
 		minutes = aMinutes;
 	}
 
-	void setDate(string newDay) {
+	void setDay(string newDay) {
 		day = newDay;
 	}
 
@@ -158,7 +145,7 @@ public:
 		return day;
 	}
 
-	int gethour() {
+	int getHour() {
 		return hour;
 	}
 
@@ -178,11 +165,11 @@ private:
 public:
 	Client() {
 
-		userId = " ";
-		cardNumber = " ";
-		name = " ";
-		lastName = " ";
-		cvcNumber = " ";
+		userId = "";
+		cardNumber = "";
+		name = "";
+		lastName = "";
+		cvcNumber = "";
 	}
 
 	Client(string newId, string newCardNumber, string newName, string newSurnames, string newCvcNumber) {
@@ -220,21 +207,15 @@ private:
 	Movie movie;
 	MovieRoom movieRoom;
 	Schedule schedule;
-	bool saleStatus;
 	int consecutive;
 
 public:
 	Reservation() {
-		saleStatus = "";
 		consecutive = 0;
 	}
 
 	Reservation(int aConsecutive) {
 		consecutive = aConsecutive;
-	}
-
-	bool getSaleStatus() {
-		return saleStatus;
 	}
 
 	int getConsecutive() {
@@ -243,21 +224,21 @@ public:
 };
 
 class Menu {
-	int choice;
-
+	int choice=0;
+	Movie movies[10];  
+	int movieCount = 0; 
 public:
 
 	int validateChoice() {
 
-		cout << "Seleccione una opcion: ";
-		cout << endl;
-
+		cout << "Seleccione una opcion: "<< endl;
 		if (cin >> choice) {
 			return choice;
 		}
 		cout << "Debe ingresar un numero. " << endl;
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return 0;
 	}
 
 	void showAbout() {
@@ -313,12 +294,28 @@ public:
 		cout << endl;
 	}
 
+	void addMultipleMovies() {
+		int count;
+		cout << "Cuantas peliculas desea agregar? " << endl;
+		cin >> count;
+		cin.ignore();
+
+		for (int i = 0; i < count; ++i) {
+			if (movieCount >= 10) {
+				cout << "No se pueden agregar más películas. El límite ha sido alcanzado." << endl;
+				return;
+			}
+			cout << "Agregando pelicula " << (i + 1) << ":" << endl;
+			saveMovie();
+		}
+	}
+
 	void handleMaintenanceMenu() {
 		while (true) {
 			showMaintenanceMenu();
 			choice = validateChoice();
 			if (choice == 1) {
-				cout << "Se realizo GESTION de PELICULAS" << endl;
+				addMultipleMovies();
 				continue;
 			}
 			if (choice == 2) {
@@ -336,6 +333,40 @@ public:
 			}
 			cout << endl << "Entrada invalida." << endl << endl;
 		}
+	}
+
+	void saveMovie() {
+
+		string name, country, review;
+		int year;
+		float duration;
+
+		cout << "Ingrese el nombre de la pelicula:" << endl;
+		cin.ignore(); 
+		getline(cin, name); 
+	
+		cout << "Ingrese el anio de publicacion:" << endl;
+		cin >> year;
+
+		cout << "Ingrese la duracion (en minutos):" << endl;
+		cin >> duration;
+		cin.ignore(); 
+
+		cout << "Ingrese el pais de origen:" << endl;
+		getline(cin, country);
+
+		cout << "Ingrese la sinopsis:" << endl;
+		getline(cin, review);
+
+		Movie tempMovie;
+		tempMovie.setName(name);
+		tempMovie.setYear(year);
+		tempMovie.setDuration(duration);
+		tempMovie.setCountry(country);
+		tempMovie.setReview(review);
+
+		movies[movieCount++] = tempMovie; 
+		cout << "Pelicula guardada con exito." << endl;
 	}
 
 	void handleReserveMenu() {

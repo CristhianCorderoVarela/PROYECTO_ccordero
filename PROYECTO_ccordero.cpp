@@ -11,7 +11,6 @@ private:
 	string country;
 	string review;
 
-
 public:
 	Movie() {
 		name = "";
@@ -19,14 +18,16 @@ public:
 		duration = 0.0;
 		country = "";
 		review = "";
+		
 	}
 
-	Movie(string aName, int aYear, float aDuration, string aCountry, string aReview) {
+	Movie(string aName, int aYear, float aDuration, string aCountry, string aReview, float aPrice) {
 		name = aName;
 		year = aYear;
 		duration = aDuration;
 		country = aCountry;
 		review = aReview;
+		
 	}
 
 	void setName(string newName) {
@@ -223,15 +224,12 @@ public:
 	}
 };
 
-class Menu {
-	int choice=0;
-	Movie movies[10];  
-	int movieCount = 0; 
-public:
+class MenuBase {
+protected:
+	int choice = 0;
 
 	int validateChoice() {
-
-		cout << "Seleccione una opcion: "<< endl;
+		cout << "Seleccione una opcion: " << endl;
 		if (cin >> choice) {
 			return choice;
 		}
@@ -241,56 +239,83 @@ public:
 		return 0;
 	}
 
-	void showAbout() {
-		cout << endl;
-		cout << "Programa: NUEVA CINEMA SA - Sistema de Venta de Tickets" << endl;
-		cout << "Autor: Cristhian Cordero Varela" << endl;
-		cout << "            Versiones:" << endl;
-		cout << "1.0 - Version inicial con gestion de peliculas y salas" << endl;
-		cout << "1.2 - Correcciones en la validacion de entradas de usuario" << endl;
-		cout << "1.3 - Mejora en la gestion de horarios y ventas" << endl;
-		cout << "1.5 - Correccion de errores menores" << endl;
-		cout << endl;
+public:
+	virtual void showMenu() = 0; // Método virtual puro para mostrar el menú
+};
 
-	}
-
-	void showPrincipalMenu() {
+class PrincipalMenu : public MenuBase {
+public:
+	void showMenu() override {
 		cout << "   Menu Principal:" << endl;
 		cout << "   1. Reserva" << endl;
 		cout << "   2. Venta" << endl;
 		cout << "   3. Mantenimiento" << endl;
 		cout << "   4. Archivo " << endl;
 		cout << endl;
-
 	}
 
-	void showReserveMenu() {
+	int handleMenu() {
+		showMenu();
+		return validateChoice();
+	}
+};
+
+class ReserveMenu : public MenuBase {
+public:
+	void showMenu() override {
 		cout << endl << "***Aca se estableceran las funciones de Reserva***" << endl;
 		cout << endl;
 		cout << "1. Volver al Menu Principal" << endl;
 		cout << endl;
 	}
 
-	void showSalesMenu() {
+	void handleMenu() {
+		while (true) {
+			showMenu();
+			choice = validateChoice();
+			if (choice == 1) {
+				return;
+			}
+			cout << endl << "Entrada invalida." << endl << endl;
+		}
+	}
+};
+
+class SalesMenu : public MenuBase {
+public:
+	void showMenu() override {
 		cout << "1. Realizar pago " << endl;
 		cout << "2. Volver al Menu Principal" << endl;
 		cout << endl;
 	}
 
-	void showMaintenanceMenu() {
+	void handleMenu() {
+		while (true) {
+			showMenu();
+			choice = validateChoice();
+			if (choice == 1) {
+				cout << "Pago realizado." << endl;
+				continue;
+			}
+			if (choice == 2) {
+				return;
+			}
+			cout << endl << "Entrada invalida." << endl << endl;
+		}
+	}
+};
+
+class MaintenanceMenu : public MenuBase {
+	Movie movies[10];
+	int movieCount = 0;
+
+public:
+	void showMenu() override {
 		cout << "   Menu de Mantenimiento:" << endl;
 		cout << "   1. Modificar Peliculas" << endl;
 		cout << "   2. Modificar Salas" << endl;
 		cout << "   3. Modificar Horarios" << endl;
 		cout << "   4. Volver al Menu Principal" << endl;
-		cout << endl;
-	}
-
-	void showFileMenu() {
-		cout << "   Menu de Archivo:" << endl;
-		cout << "   1. Acerca de" << endl;
-		cout << "   2. Volver al Menu Principal" << endl;
-		cout << "   3. Salir." << endl;
 		cout << endl;
 	}
 
@@ -310,9 +335,42 @@ public:
 		}
 	}
 
-	void handleMaintenanceMenu() {
+	void saveMovie() {
+		string name, country, review;
+		int year;
+		float duration;
+
+		cout << "Ingrese el nombre de la pelicula:" << endl;
+		cin.ignore();
+		getline(cin, name);
+
+		cout << "Ingrese el anio de publicacion:" << endl;
+		cin >> year;
+
+		cout << "Ingrese la duracion (en minutos):" << endl;
+		cin >> duration;
+		cin.ignore();
+
+		cout << "Ingrese el pais de origen:" << endl;
+		getline(cin, country);
+
+		cout << "Ingrese la sinopsis:" << endl;
+		getline(cin, review);
+
+		Movie tempMovie;
+		tempMovie.setName(name);
+		tempMovie.setYear(year);
+		tempMovie.setDuration(duration);
+		tempMovie.setCountry(country);
+		tempMovie.setReview(review);
+
+		movies[movieCount++] = tempMovie;
+		cout << "Pelicula guardada con exito." << endl;
+	}
+
+	void handleMenu() {
 		while (true) {
-			showMaintenanceMenu();
+			showMenu();
 			choice = validateChoice();
 			if (choice == 1) {
 				addMultipleMovies();
@@ -334,71 +392,33 @@ public:
 			cout << endl << "Entrada invalida." << endl << endl;
 		}
 	}
+};
 
-	void saveMovie() {
-
-		string name, country, review;
-		int year;
-		float duration;
-
-		cout << "Ingrese el nombre de la pelicula:" << endl;
-		cin.ignore(); 
-		getline(cin, name); 
-	
-		cout << "Ingrese el anio de publicacion:" << endl;
-		cin >> year;
-
-		cout << "Ingrese la duracion (en minutos):" << endl;
-		cin >> duration;
-		cin.ignore(); 
-
-		cout << "Ingrese el pais de origen:" << endl;
-		getline(cin, country);
-
-		cout << "Ingrese la sinopsis:" << endl;
-		getline(cin, review);
-
-		Movie tempMovie;
-		tempMovie.setName(name);
-		tempMovie.setYear(year);
-		tempMovie.setDuration(duration);
-		tempMovie.setCountry(country);
-		tempMovie.setReview(review);
-
-		movies[movieCount++] = tempMovie; 
-		cout << "Pelicula guardada con exito." << endl;
+class FileMenu : public MenuBase {
+public:
+	void showMenu() override {
+		cout << "   Menu de Archivo:" << endl;
+		cout << "   1. Acerca de" << endl;
+		cout << "   2. Volver al Menu Principal" << endl;
+		cout << "   3. Salir." << endl;
+		cout << endl;
 	}
 
-	void handleReserveMenu() {
-		int choice;
-		while (true) {
-			showReserveMenu();
-			choice = validateChoice();
-			if (choice == 1) {
-				return;
-			}
-			cout << endl << "Entrada invalida." << endl << endl;
-		}
+	void showAbout() {
+		cout << endl;
+		cout << "Programa: NUEVA CINEMA SA - Sistema de Venta de Tickets" << endl;
+		cout << "Autor: Cristhian Cordero Varela" << endl;
+		cout << "            Versiones:" << endl;
+		cout << "1.0 - Version inicial con gestion de peliculas y salas" << endl;
+		cout << "1.2 - Correcciones en la validacion de entradas de usuario" << endl;
+		cout << "1.3 - Mejora en la gestion de horarios y ventas" << endl;
+		cout << "1.5 - Correccion de errores menores" << endl;
+		cout << endl;
 	}
 
-	void handleSalesMenu() {
+	void handleMenu(bool* leaving) {
 		while (true) {
-			showSalesMenu();
-			choice = validateChoice();
-			if (choice == 1) {
-				cout << "Pago realizado." << endl;
-				continue;
-			}
-			if (choice == 2) {
-				return;
-			}
-			cout << endl << "Entrada invalida." << endl << endl;
-		}
-	}
-
-	void handleFileMenu(bool* leaving) {
-		while (true) {
-			showFileMenu();
+			showMenu();
 			choice = validateChoice();
 			if (choice == 1) {
 				showAbout();
@@ -415,26 +435,34 @@ public:
 			cout << endl << "Entrada invalida." << endl << endl;
 		}
 	}
+};
 
+class MenuManager {
+	PrincipalMenu principalMenu;
+	ReserveMenu reserveMenu;
+	SalesMenu salesMenu;
+	MaintenanceMenu maintenanceMenu;
+	FileMenu fileMenu;
+
+public:
 	void executeMenu() {
 		bool leaving = false;
 		while (true) {
-			showPrincipalMenu();
-			choice = validateChoice();
+			int choice = principalMenu.handleMenu();
 			if (choice == 1) {
-				handleReserveMenu();
+				reserveMenu.handleMenu();
 				continue;
 			}
 			if (choice == 2) {
-				handleSalesMenu();
+				salesMenu.handleMenu();
 				continue;
 			}
 			if (choice == 3) {
-				handleMaintenanceMenu();
+				maintenanceMenu.handleMenu();
 				continue;
 			}
 			if (choice == 4) {
-				handleFileMenu(&leaving);
+				fileMenu.handleMenu(&leaving);
 				if (leaving) {
 					break;
 				}
@@ -445,11 +473,9 @@ public:
 	}
 };
 
-int main()
-{
-	Menu menu;
-	menu.executeMenu();
+int main() {
+	MenuManager menuManager;
+	menuManager.executeMenu();
+
 	return 0;
-
 }
-
